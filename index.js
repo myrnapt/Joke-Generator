@@ -9,12 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 // VARIABLES
-const printedJoke = document.getElementById("printedJoke");
-const button = document.getElementById("button");
-const rating1 = document.getElementById("rating-1");
-const rating2 = document.getElementById("rating-2");
-const rating3 = document.getElementById("rating-3");
-const jokesArray = [];
+const reportJokes = [];
+let jokePrint = '';
 // WEATHER APP
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -26,72 +22,70 @@ if (navigator.geolocation) {
                 const data = yield response.json();
                 const weather = data.weather;
                 const weatherDescription = weather[0].description;
-                console.log(data);
-                console.log(weatherDescription);
-                document.getElementById('textWeather').innerHTML = `Weather today: ${weatherDescription}`;
+                document.getElementById('weather').innerHTML = `Weather today: ${weatherDescription}`;
             }
             catch (error) {
-                console.error('Error fetching weather data:', error);
+                document.getElementById('weather').innerHTML = 'Connecting error';
             }
         });
     });
 }
-// RANDOM NUMBER FOR API
-function getRandomNumber() {
-    return Math.round(Math.random());
-}
-// CONNECT WITH JOKES API
-button.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
+// API 1
+const getJoke = () => __awaiter(void 0, void 0, void 0, function* () {
+    let jokeHTML = document.getElementById("printedJoke");
     try {
-        let response = yield fetch("https://icanhazdadjoke.com/", {
-            method: "GET",
-            headers: { Accept: "application/json" },
+        let jokes = yield fetch("https://icanhazdadjoke.com/", {
+            headers: {
+                Accept: "application/json",
+            },
         });
-        if (!response.ok) {
-            printedJoke.innerHTML = "HTTP error";
-        }
-        let joke = yield response.json();
-        printedJoke.innerHTML = JSON.stringify(joke.joke);
-        let newJokeObject = {
-            joke: joke.joke,
-            rating: 0,
-            date: new Date().toISOString(),
-        };
-        jokesArray.push(newJokeObject);
-        console.log(jokesArray);
+        let data = yield jokes.json();
+        jokePrint = data.joke;
+        jokeHTML.innerHTML = jokePrint;
     }
     catch (error) {
-        printedJoke.innerHTML = "Error connecting to API";
+        jokeHTML.innerHTML = 'ERROR CONNECTING TO API';
     }
-}));
-// ONLY SHOW RATING AFTER CLICK
+});
+// API 2
+const getJoke2 = () => __awaiter(void 0, void 0, void 0, function* () {
+    let jokeHTML = document.getElementById("printedJoke");
+    try {
+        let jokes = yield fetch("https://api.chucknorris.io/jokes/random");
+        let data = yield jokes.json();
+        jokePrint = data.value;
+        jokeHTML.innerHTML = jokePrint;
+    }
+    catch (error) {
+        jokeHTML.innerHTML = 'ERROR CONNECTING TO API';
+    }
+});
+// PRINT RANDOM JOKE
+const randomizeJoke = () => {
+    let randomJoke = Math.floor(Math.random() * 10);
+    randomJoke >= 5 ? getJoke() : getJoke2();
+    let nextHTML = document.getElementById("button");
+    nextHTML.innerHTML = "Next joke";
+};
+// SHOW SCORE BUTTONS
 let iconsContainer = document.getElementById("icons-container");
+let button = document.getElementById('button');
 button.addEventListener("click", () => {
     iconsContainer.style.display = "block";
 });
-// RATING BUTTONS
-rating1.addEventListener("click", () => {
-    jokesArray.forEach((jokesArray) => {
-        jokesArray.rating = 1;
-        console.log(jokesArray.rating);
-    });
-});
-rating2.addEventListener("click", () => {
-    jokesArray.forEach((jokesArray) => {
-        jokesArray.rating = 2;
-        console.log(jokesArray.rating);
-    });
-});
-rating3.addEventListener("click", () => {
-    jokesArray.forEach((jokesArray) => {
-        jokesArray.rating = 3;
-        console.log(jokesArray.rating);
-    });
-});
-/*  // Mostrem l'icone del temps pel DOM mitjançant el codi que ens retorna l'API
-  let iconeTemp = document.getElementById("icone") as HTMLImageElement;
-  iconeTemp.src = `https://www.weatherbit.io/static/img/icons/${meteoIcone}.png`;
-  // Mostrem la temperatura tornada
-  let temperatura = document.getElementById("meteo") as HTMLElement;
-  temperatura.innerHTML = `${meteoTemp} ºC`;
-  */ 
+// SCORE
+const scoreButton = (score) => {
+    let report = {
+        joke: jokePrint,
+        score: score,
+        date: new Date().toISOString(),
+    };
+    const index = reportJokes.findIndex(obj => obj.joke == report.joke);
+    if (index !== -1) {
+        reportJokes[index] = report;
+    }
+    else {
+        reportJokes.push(report);
+    }
+    console.log(reportJokes);
+};
