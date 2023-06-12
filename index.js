@@ -22,7 +22,7 @@ if (navigator.geolocation) {
                 const data = yield response.json();
                 const weather = data.weather;
                 const weatherDescription = weather[0].description;
-                document.getElementById('weather').innerHTML = `Weather today: ${weatherDescription}`;
+                document.getElementById('weather').innerHTML = `<div id="weather">Weather today: <em class='text-light opacity-75'>${weatherDescription} </em></div>`;
             }
             catch (error) {
                 document.getElementById('weather').innerHTML = 'Connecting error';

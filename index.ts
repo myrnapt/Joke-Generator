@@ -2,7 +2,6 @@
 const reportJokes: {joke: string; score: number; date: string}[] = []
 let jokePrint: string = ''
 
-
 // WEATHER APP
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(async function (position) {
@@ -14,7 +13,7 @@ if (navigator.geolocation) {
         const data = await response.json();
         const weather = data.weather;
         const weatherDescription = weather[0].description;
-        document.getElementById('weather')!.innerHTML = `Weather today: ${weatherDescription}`;
+        document.getElementById('weather')!.innerHTML = `<div id="weather">Weather today: <em class='text-light opacity-75'>${weatherDescription} </em></div>` ;
       } catch (error) {
         document.getElementById('weather')!.innerHTML = 'Connecting error';
       }

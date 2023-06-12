@@ -1,3 +1,87 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap');
+
+body {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
+    font-family: 'Roboto Condensed', sans-serif;
+}    
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+	}    
+	50% {
+        background-position: 100% 50%;
+	}    
+	100% {
+		background-position: 0% 50%;
+	}    
+}    
+
 .icons {
-    display: none;
+        display: none;
+    }
+
+.rating-button {
+    border: none;
+    background-color: yellow;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-position: left;
+    padding: 0%;
+}
+
+.rating-button:hover {
+    background-color: orange
+}
+
+
+#weather {
+    color: rgb(35, 21, 21);
+    font-size: x-large;
+    margin-left: 10px;
+    margin-top: 10px;
+}    
+
+#printedJoke {
+    font-style: italic;
+    font-size: 40px;
+    text-align: center;
+}    
+
+#button {
+    font-size: 20px;
+    letter-spacing: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #000;
+    cursor: pointer;
+    border: 3px solid;
+    padding: 0.25em 0.5em;
+    box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}    
+
+.button:active {
+    box-shadow: 0px 0px 0px 0px;
+    top: 5px;
+    left: 5px;
+}    
+
+@media (min-width: 768px) {
+      .button {
+          padding: 0.25em 0.75em;
+        }  
+    }
+
+#printedJoke {
+    margin-left: 280px;
+    margin-right: 280px;
 }
